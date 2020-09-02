@@ -24,7 +24,7 @@ jobs:
           name: Build image
           command: |
             FULL_DOCKER_IMAGE_NAME=$(cat pichincha_api_image)
-            docker build -t $FULL_DOCKER_IMAGE_NAME -f pichincha-docker/Dockerfile pichincha-docker/
+            docker build -t $FULL_DOCKER_IMAGE_NAME -f . Dockerfile
       - run:
           name: Push image
           command: |
