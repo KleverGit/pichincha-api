@@ -36,9 +36,10 @@ jobs:
    
   build-image:
     machine: true
-    working_directory: ~/pichincha-api
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run: echo ${GCLOUD_SERVICE_KEY} > ${HOME}/gcp-key.json
       - run: docker build --rm=false -t eu.gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1 .
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
