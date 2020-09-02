@@ -4,6 +4,7 @@ FROM maven:3-openjdk-8 AS MAVEN_BUILD
 WORKDIR /opt/app
 COPY . /opt/app
 # package our application code
+WORKDIR /opt/app
 RUN mvn clean package
 # the second stage of our build will use open jdk 8 on alpine 3.9
 FROM openjdk:8-jdk
