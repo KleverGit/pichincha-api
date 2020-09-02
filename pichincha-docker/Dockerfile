@@ -2,7 +2,7 @@
 FROM maven:3-openjdk-8 AS MAVEN_BUILD
 # copy the pom and src code to the container
 WORKDIR /opt/app
-COPY .mvn /opt/app/.mvn
+COPY ../.mvn /opt/app/.mvn
 COPY pom.xml /opt/app/
 COPY src /opt/app/src
 # package our application code
