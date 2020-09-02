@@ -2,9 +2,10 @@
 FROM maven:3-openjdk-8 AS MAVEN_BUILD
 # copy the pom and src code to the container
 WORKDIR /opt/app
-COPY . /opt/app
+COPY pichincha-api/.mvn /opt/app/.mvn
+COPY ./pom.xml /opt/app/.
+COPY ./src /opt/app/src
 # package our application code
-WORKDIR /opt/app
 RUN mvn clean package
 # the second stage of our build will use open jdk 8 on alpine 3.9
 FROM openjdk:8-jdk
