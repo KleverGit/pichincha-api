@@ -8,6 +8,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - checkout:
+          path: ~/pichincha-api
       - run:
           name: Generate full image name for new docker image
           working_directory: ~/pichincha-api
