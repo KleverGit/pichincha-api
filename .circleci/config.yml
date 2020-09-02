@@ -8,11 +8,9 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - checkout:
-          path: ~/pichincha-api
       - run:
           name: Generate full image name for new docker image
-          working_directory: ~/pichincha-api
+          working_directory: /opt/pichincha-api
           command: |
             set -x
             if [ "${CIRCLE_BRANCH}" == "develop" ]
@@ -25,7 +23,7 @@ jobs:
             fi
       - run:
           name: Build image
-          working_directory: ~/pichincha-api
+          working_directory: /opt/pichincha-api
           command: |
             FULL_DOCKER_IMAGE_NAME=$(cat pichincha_api_image)
             docker build -t $FULL_DOCKER_IMAGE_NAME .
