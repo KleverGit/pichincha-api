@@ -10,6 +10,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Generate full image name for new docker image
+          working_directory: ~/pichincha-api
           command: |
             set -x
             if [ "${CIRCLE_BRANCH}" == "develop" ]
