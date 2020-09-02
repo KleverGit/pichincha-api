@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk
-VOLUME /tmp
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} pichincha-api.jar
 EXPOSE 8080
-ADD ./target/pichincha-api-0.0.1-SNAPSHOT.jar pichincha-api.jar
 ENTRYPOINT ["java","-jar","/pichincha-api.jar"]
