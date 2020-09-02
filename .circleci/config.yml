@@ -1,6 +1,6 @@
 workflows:
   version: 2
-  build-and-deploy-pichincha:
+  build-deploy:
     jobs:
       - build
       - deploy-test:
@@ -20,12 +20,12 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - cloud-sdk-{{ checksum ".circleci/gcloud.sh" }}
+            - pichincha-api-{{ checksum ".circleci/gcloud.sh" }}
       - run: /bin/bash .circleci/gcloud.sh
       - save_cache:
           paths:
             - ~/google-cloud-sdk
-          key: cloud-sdk-{{ checksum ".circleci/gcloud.sh" }}
+          key: pichincha-api-{{ checksum ".circleci/gcloud.sh" }}
       - run: mvn appengine:stage
       - persist_to_workspace:
           root: .
@@ -39,7 +39,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - cloud-sdk-{{ checksum ".circleci/gcloud.sh" }}
+            - pichincha-api-{{ checksum ".circleci/gcloud.sh" }}
       - run: /bin/bash .circleci/gcloud.sh
       - attach_workspace:
           at: .
