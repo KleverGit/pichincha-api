@@ -1,5 +1,6 @@
 # the first stage of our build will use a maven 3.6.1 parent image
 FROM maven:3-openjdk-8 AS MAVEN_BUILD
+VOLUME /tmp
 # copy the pom and src code to the container
 WORKDIR /opt/app
 COPY pichincha-api/.mvn /opt/app/.mvn
