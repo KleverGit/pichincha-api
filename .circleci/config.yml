@@ -1,20 +1,47 @@
+workflows:
+  version: 2
+  build-and-deploy-pichincha:
+    jobs:
+      - build
+      - deploy-test:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
+
 version: 2
 jobs:
   build:
-    working_directory: ~/pichincha-api
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
+      - image: circleci/openjdk:8-jdk
     steps:
       - checkout
       - restore_cache:
-          key: pichincha-api-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline
+          keys:
+            - cloud-sdk-{{ checksum ".circleci/gcloud.sh" }}
+      - run: /bin/bash .circleci/gcloud.sh
       - save_cache:
           paths:
-            - ~/.m2
-          key: pichincha-api-{{ checksum "pom.xml" }}
-      - run: mvn package
-      - store_test_results:
-          path: target/pichincha-api-reports
-      - store_artifacts:
-          path: target/pichincha-api-0.0.1-SNAPSHOT.jar
+            - ~/google-cloud-sdk
+          key: cloud-sdk-{{ checksum ".circleci/gcloud.sh" }}
+      - run: mvn appengine:stage
+      - persist_to_workspace:
+          root: .
+          paths:
+            - target/pichincha-api
+
+  deploy-test:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - cloud-sdk-{{ checksum ".circleci/gcloud.sh" }}
+      - run: /bin/bash .circleci/gcloud.sh
+      - attach_workspace:
+          at: .
+      - run: cd target/pichincha-api && ~/google-cloud-sdk/bin/gcloud app deploy
+
