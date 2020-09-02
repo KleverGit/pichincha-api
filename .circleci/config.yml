@@ -36,6 +36,7 @@ jobs:
    
   build-image:
     machine: true
+    working_directory: ~/pichincha-api
     steps:
       - checkout
       - run: echo ${GCLOUD_SERVICE_KEY} > ${HOME}/gcp-key.json
