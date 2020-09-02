@@ -18,13 +18,13 @@ jobs:
               echo "$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG" > pichincha_api_image
             else
               DOCKER_IMAGE_TAG=${CIRCLE_BRANCH}
-              echo "hello-app:$DOCKER_IMAGE_TAG" > pichincha_api_image
+              echo "pichincha-api:$DOCKER_IMAGE_TAG" > pichincha_api_image
             fi
       - run:
           name: Build image
           command: |
             FULL_DOCKER_IMAGE_NAME=$(cat pichincha_api_image)
-            docker build -t $FULL_DOCKER_IMAGE_NAME -f pichincha-api/Dockerfile pichincha_api_image/
+            docker build -t $FULL_DOCKER_IMAGE_NAME -f ./Dockerfile pichincha_api/
       - run:
           name: Push image
           command: |
@@ -84,7 +84,7 @@ jobs:
             fi
             FULL_DOCKER_IMAGE_NAME=$(cat workspace/pichincha_api_image)
             # Replace DOCKER_IMAGE_NAME placeholder in manifest with actual image name
-            KUBE_CONFIG=$(cat pichincha-api/manifests/pichinchaweb-all-in-one.yaml.template | sed "s|DOCKER_IMAGE_NAME|$FULL_DOCKER_IMAGE_NAME|g")
+            KUBE_CONFIG=$(cat ./manifests/pichinchaweb.yaml.template | sed "s|DOCKER_IMAGE_NAME|$FULL_DOCKER_IMAGE_NAME|g")
             echo "$KUBE_CONFIG" | kubectl apply -f -
             # Wait for deployment to finish
             kubectl rollout status deployment/pichinchaweb
