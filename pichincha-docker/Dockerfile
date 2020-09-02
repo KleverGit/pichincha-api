@@ -2,7 +2,6 @@
 FROM maven:3-openjdk-8 AS MAVEN_BUILD
 # copy the pom and src code to the container
 WORKDIR /opt/app
-COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
