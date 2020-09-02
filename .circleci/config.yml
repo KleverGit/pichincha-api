@@ -33,15 +33,13 @@ jobs:
       - store_artifacts:
           path: target/classes
           destination: pichincha-api
-   
   build-image:
     machine: true
     steps:
       - checkout
-      - attach_workspace:
-          at: .
+      - run: cp . ~/pichincha-api
       - run: echo ${GCLOUD_SERVICE_KEY} > ${HOME}/gcp-key.json
-      - run: docker build --rm=false -t eu.gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1 .
+      - run: docker build --rm=false -t gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1 .
       - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run: gcloud --quiet config set project ${DOCKER_IMAGE_NAME}
-      - run: gcloud docker -- push eu.gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1
+      - run: gcloud docker -- push gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1
