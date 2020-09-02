@@ -1,6 +1,7 @@
 # the first stage of our build will use a maven 3.6.1 parent image
 FROM maven:3-openjdk-8 AS MAVEN_BUILD
 ADD . /opt/app
+WORKDIR /opt/app
 RUN mvn clean package
 
 # the second stage of our build will use open jdk 8 on alpine 3.9
