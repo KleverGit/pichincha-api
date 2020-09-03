@@ -12,7 +12,7 @@ jobs:
           name: Generate full image name for new docker image
           command: |
             set -x
-            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            if [ "${CIRCLE_BRANCH}" == "master" ]
             then
               DOCKER_IMAGE_TAG=v${CIRCLE_BUILD_NUM}
               echo "$DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG" > pichincha_api_image
@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Push image
           command: |
-            if [ "${CIRCLE_BRANCH}" == "develop" ]
+            if [ "${CIRCLE_BRANCH}" == "master" ]
             then
               FULL_DOCKER_IMAGE_NAME=$(cat pichincha_api_image)
               echo ${GCLOUD_SERVICE_KEY} > ${HOME}/gcp-key.json
@@ -36,7 +36,7 @@ jobs:
               gcloud --quiet auth configure-docker
               docker push $FULL_DOCKER_IMAGE_NAME
             else
-              echo "Not develop branch; skipping image push.."
+              echo "Not master branch; skipping image push.."
             fi
       - persist_to_workspace:
           root: .
@@ -106,4 +106,4 @@ workflows:
             - build
           filters:
             branches:
-              only: develop
+              only: master
