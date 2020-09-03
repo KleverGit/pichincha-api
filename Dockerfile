@@ -8,7 +8,7 @@ RUN mvn clean package
 FROM openjdk:8-jdk
 MAINTAINER kleverhidalgo 
 # copy only the artifacts we need from the first stage and discard the rest
-COPY --from=MAVEN_BUILD pichincha-api/target/pichincha-api-0.0.1-SNAPSHOT.jar /pichincha-api.jar
+COPY --from=MAVEN_BUILD target/pichincha-api-0.0.1-SNAPSHOT.jar /pichincha-api.jar
 # set the startup command to execute the jar
 CMD ["java", "-jar", "/pichincha-api.jar"]
 
