@@ -31,7 +31,7 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "develop" ]
             then
               FULL_DOCKER_IMAGE_NAME=$(cat pichincha_api_image)
-              echo $GCLOUD_SERVICE_KEY | base64 --decode --ignore-garbage > gcloud-service-key.json
+              echo ${GCLOUD_SERVICE_KEY} | base64 --decode --ignore-garbage > gcloud-service-key.json
               gcloud auth activate-service-account --key-file gcloud-service-key.json
               gcloud --quiet auth configure-docker
               docker push $FULL_DOCKER_IMAGE_NAME
