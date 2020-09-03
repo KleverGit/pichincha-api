@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pichincha-api-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: www.kleverhidalgo.com
+    http:
+      paths:
+      - path: "/"
+        backend:
+          serviceName: pichinchaweb
+          servicePort: 80

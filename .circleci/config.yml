@@ -74,7 +74,9 @@ jobs:
             FULL_DOCKER_IMAGE_NAME=$(cat workspace/pichincha_api_image)
             # Replace DOCKER_IMAGE_NAME placeholder in manifest with actual image name
             KUBE_CONFIG=$(cat ./manifests/pichinchaweb.yaml | sed "s|DOCKER_IMAGE_NAME|$FULL_DOCKER_IMAGE_NAME|g")
+            KUBE_CONFIG_INGRESS=$(cat ./manifests/pichincha-k8s.ingress.yaml)
             echo "$KUBE_CONFIG" | kubectl apply -f -
+            echo "$KUBE_CONFIG_INGRESS" | kubectl apply -f -
             # Wait for deployment to finish
             kubectl rollout status deployment/pichinchaweb
             kubectl get pods
