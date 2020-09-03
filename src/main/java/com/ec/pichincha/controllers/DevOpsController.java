@@ -21,9 +21,9 @@ public class DevOpsController {
 		MessageVo messageResponse = null;
 		try {
 			messageResponse = new MessageVo();
-			messageResponse.setMessage("Hello " + message.getTo() + " will be send");
+			messageResponse.setMessage("Hello " + message.getTo() + "your message will be send");
 		} catch (Exception e) {
-			return new ResponseEntity<MessageVo>(messageResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<MessageVo>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<MessageVo>(messageResponse, HttpStatus.OK);
 	}
