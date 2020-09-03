@@ -1,0 +1,45 @@
+workflows:
+  version: 2
+  deploy-pichincha-api:
+    jobs:
+      - build-jar
+      - build-image:
+          requires:
+            - build-jar
+
+version: 2
+jobs:
+  build-jar:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/pichincha-api
+    steps:
+      # git pull
+      - checkout
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - pichincha-api-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - pichincha-api-
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: pichincha-api-{{ checksum "pom.xml" }}
+      # package into a jar
+      - run: mvn clean package
+      # store raw contents of src code
+      - store_artifacts:
+          path: target/classes
+          destination: pichincha-api
+  build-image:
+    machine: true
+    steps:
+      - checkout
+      - run: cp ./ ./
+      - run: echo ${GCLOUD_SERVICE_KEY} > ${HOME}/gcp-key.json
+      - run: docker build --rm=false -t gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1 .
+      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+      - run: gcloud --quiet config set project ${DOCKER_IMAGE_NAME}
+      - run: gcloud docker -- push gcr.io/${DOCKER_IMAGE_NAME}/${DOCKER_IMAGE_NAME}:$CIRCLE_SHA1
