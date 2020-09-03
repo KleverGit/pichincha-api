@@ -8,18 +8,20 @@ spec:
   selector:
     app: pichincha-api
     tier: web
+  type: LoadBalancer
   ports:
   - port: 80
+    nodePort : 31000
     targetPort: 8080
-  type: LoadBalancer
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pichinchaweb
   labels:
     app: pichincha-api
 spec:
+  replicas : 3
   template:
     metadata:
       labels:
@@ -31,3 +33,19 @@ spec:
         image: DOCKER_IMAGE_NAME
         ports:
         - containerPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pichincha-api-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: www.kleverhidalgo.com
+    http:
+      paths:
+      - path: "/"
+        backend:
+          serviceName: pichinchaweb
+          servicePort: 80
