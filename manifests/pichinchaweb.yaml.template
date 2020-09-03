@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pichinchaweb
+  labels:
+    app: pichincha-api
+spec:
+  selector:
+    app: pichincha-api
+    tier: web
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: pichinchaweb
+  labels:
+    app: pichincha-api
+spec:
+  template:
+    metadata:
+      labels:
+        app: pichincha-api
+        tier: web
+    spec:
+      containers:
+      - name: pichincha-api
+        image: DOCKER_IMAGE_NAME
+        ports:
+        - containerPort: 8080
