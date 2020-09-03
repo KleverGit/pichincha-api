@@ -34,7 +34,7 @@ jobs:
               echo ${GCLOUD_SERVICE_KEY} > ${HOME}/gcp-key.json
               gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
               gcloud --quiet auth configure-docker
-              docker push $FULL_DOCKER_IMAGE_NAME
+              gcloud docker -- push gcr.io/$FULL_DOCKER_IMAGE_NAME
             else
               echo "Not develop branch; skipping image push.."
             fi
