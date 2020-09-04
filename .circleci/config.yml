@@ -3,6 +3,14 @@ defaults: &defaults
   docker:
     - image: google/cloud-sdk
 jobs:
+  sonar:
+     docker:
+      - image: circleci/openjdk:8-jdk
+     steps:
+      - checkout
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar
   build:
     <<: *defaults
     steps:
@@ -100,6 +108,7 @@ workflows:
   version: 2
   build-deploy:
     jobs:
+      - sonar
       - build
       - deploy:
           requires:
