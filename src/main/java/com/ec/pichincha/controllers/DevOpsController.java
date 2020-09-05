@@ -16,7 +16,7 @@ public class DevOpsController {
 	 * @param message
 	 * @return
 	 */
-	@PostMapping(value = "/DevOps")
+	@PostMapping(value = "/DevOps",consumes = "application/json", produces = "application/json")
 	public ResponseEntity<MessageVo> sendMessage(@RequestBody MessageVo message) {
 		MessageVo messageResponse = null;
 		try {

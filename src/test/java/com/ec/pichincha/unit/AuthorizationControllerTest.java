@@ -1,4 +1,4 @@
-package com.ec.pichincha.auth;
+package com.ec.pichincha.unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,6 +21,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Test authorization endpoint only with MockMvc
+ * @author kleverhidalgo
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AuthorizationControllerTest {

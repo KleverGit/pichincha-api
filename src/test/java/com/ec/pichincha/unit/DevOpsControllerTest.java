@@ -1,4 +1,4 @@
-package com.ec.pichincha.auth;
+package com.ec.pichincha.unit;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +49,6 @@ public class DevOpsControllerTest {
 		MessageVo mes = new MessageVo();
 		mes.setFrom("Klever");
 		mes.setMessage("Hello !! ");
-		;
 		mes.setTo("Pichincha");
 		mes.setTimeToLifeSec(7);
 		String mesJson = mapToJson(mes);

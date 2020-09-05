@@ -81,7 +81,7 @@ public class AuthFilter extends UsernamePasswordAuthenticationFilter {
 			username = username.trim();
 
 		} catch (Exception e) {
-			log.error("Error in authenticacion");
+			log.error("Error in authenticacion"+ " username ---> "+ username + " password ---> "+  password);
 		}
 		// token from spring security
 		// it means that ut is in spring context
